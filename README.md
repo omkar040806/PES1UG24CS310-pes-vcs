@@ -1,6 +1,6 @@
 # PES-VCS — Version Control System Implementation Report
 
-**Name:** PES User  
+**Name:** Omkar  
 **SRN:** PES1UG24CS310  
 **Repository:** PES1UG24CS310-pes-vcs
 
