@@ -133,7 +133,25 @@ int tree_serialize(const Tree *tree, void **data_out, size_t *len_out) {
 
 // Helper: recursively build and write a tree for entries sharing a prefix at `depth`
 // `entries` is an array of IndexEntry pointers, `count` is how many
-static int write_tree_level(IndexEntry **entries, int count, int depth, ObjectID *id_out)
+static int write_tree_level(IndexEntry **entries, int count, int depth, ObjectID *id_out) {
+    Tree tree;
+    tree.count = 0;
+
+    int i = 0;
+    while (i < count) {
+        // Find the path component at this depth
+        const char *path = entries[i]->path;
+
+        // Walk to the depth-th slash to find our component
+        const char *p = path;
+        for (int d = 0; d < depth; d++) {
+            p = strchr(p, '/');
+            if (!p) return -1;
+            p++; // skip the slash
+        }
+
+        // Check if this entry has a subdirectory at this level
+        const char *slash = strchr(p, '/'); 
 int tree_from_index(ObjectID *id_out) {
     // TODO: Implement recursive tree building
     // (See Lab Appendix for logical steps)
