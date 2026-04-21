@@ -241,5 +241,9 @@ int tree_from_index(ObjectID *id_out) {
         }
     }
 
-    
+    // Build pointer array for the recursive helper
+    IndexEntry *ptrs[MAX_INDEX_ENTRIES];
+    for (int i = 0; i < index.count; i++) ptrs[i] = &index.entries[i];
+
+    return write_tree_level(ptrs, index.count, 0, id_out);
 }
