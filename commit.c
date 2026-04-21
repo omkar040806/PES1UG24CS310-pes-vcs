@@ -219,4 +219,12 @@ int commit_create(const char *message, ObjectID *commit_id_out) {
     } else {
         commit.has_parent = 0;
     }
+
+    // Step 4: Serialize the commit struct to text
+    void *data;
+    size_t len;
+    if (commit_serialize(&commit, &data, &len) != 0) {
+        return -1;
+    }
+
 }
