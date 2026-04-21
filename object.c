@@ -115,6 +115,15 @@ int object_write(ObjectType type, const void *data, size_t len, ObjectID *id_out
 
     ObjectID id;
     compute_hash(full, total, &id);
+
+    // Step 3: Deduplication — if already stored, skip writing
+    if (object_exists(&id)) {
+        free(full);
+        *id_out = id;
+        return 0;
+    }
+
+    
 }
 
 // Read an object from the store.
