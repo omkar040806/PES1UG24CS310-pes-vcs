@@ -175,6 +175,10 @@ int index_load(Index *index) {
     return 0;
 }
 
+static int compare_index_entries(const void *a, const void *b) {
+    return strcmp(((const IndexEntry *)a)->path, ((const IndexEntry *)b)->path);
+}
+
 // Save the index to .pes/index atomically.
 //
 // HINTS - Useful functions and syscalls:
