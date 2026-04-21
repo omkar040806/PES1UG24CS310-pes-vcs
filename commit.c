@@ -210,4 +210,13 @@ int commit_create(const char *message, ObjectID *commit_id_out) {
     commit.timestamp = (uint64_t)time(NULL);
     snprintf(commit.author, sizeof(commit.author), "%s", pes_author());
     snprintf(commit.message, sizeof(commit.message), "%s", message);
+
+    // Step 3: Read current HEAD as parent (may not exist for first commit)
+    ObjectID parent_id;
+    if (head_read(&parent_id) == 0) {
+        commit.has_parent = 1;
+        commit.parent = parent_id;
+    } else {
+        commit.has_parent = 0;
+    }
 }
