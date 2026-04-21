@@ -192,8 +192,40 @@ static int compare_index_entries(const void *a, const void *b) {
 int index_save(const Index *index) {
     // TODO: Implement atomic index saving
     // (See Lab Appendix for logical steps)
-    (void)index;
-    return -1;
+    // Heap-allocate the sorted copy — Index is too large for the stack
+    Index *sorted = malloc(sizeof(Index));
+    if (!sorted) return -1;
+    *sorted = *index;
+    qsort(sorted->entries, sorted->count, sizeof(IndexEntry), compare_index_entries);
+
+    char tmp_path[] = ".pes/index_tmp_XXXXXX";
+    int fd = mkstemp(tmp_path);
+    if (fd < 0) { free(sorted); return -1; }
+
+    FILE *f = fdopen(fd, "w");
+    if (!f) { close(fd); unlink(tmp_path); free(sorted); return -1; }
+
+    for (int i = 0; i < sorted->count; i++) {
+        char hex[HASH_HEX_SIZE + 1];
+        hash_to_hex(&sorted->entries[i].hash, hex);
+        fprintf(f, "%o %s %llu %u %s\n",
+                sorted->entries[i].mode,
+                hex,
+                (unsigned long long)sorted->entries[i].mtime_sec,
+                sorted->entries[i].size,
+                sorted->entries[i].path);
+    }
+
+    fflush(f);
+    fsync(fileno(f));
+    fclose(f);
+    free(sorted);
+
+    if (rename(tmp_path, INDEX_FILE) != 0) {
+        unlink(tmp_path);
+        return -1;
+    }
+    return 0;
 }
 
 // Stage a file for the next commit.
