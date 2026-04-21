@@ -214,6 +214,32 @@ static int write_tree_level(IndexEntry **entries, int count, int depth, ObjectID
 int tree_from_index(ObjectID *id_out) {
     // TODO: Implement recursive tree building
     // (See Lab Appendix for logical steps)
-    (void)id_out;
-    return -1;
+    Index index;
+    if (index_load(&index) != 0) return -1;
+
+    if (index.count == 0) {
+        // Empty tree — write an empty tree object
+        Tree empty;
+        empty.count = 0;
+        void *data;
+        size_t len;
+        if (tree_serialize(&empty, &data, &len) != 0) return -1;
+        int ret = object_write(OBJ_TREE, data, len, id_out);
+        free(data);
+        return ret;
+    }
+
+    // Sort entries by path so subdirectories are grouped together
+    // (index_save already sorts, but index_load might not — sort here to be safe)
+    for (int i = 0; i < index.count - 1; i++) {
+        for (int j = i + 1; j < index.count; j++) {
+            if (strcmp(index.entries[i].path, index.entries[j].path) > 0) {
+                IndexEntry tmp = index.entries[i];
+                index.entries[i] = index.entries[j];
+                index.entries[j] = tmp;
+            }
+        }
+    }
+
+    
 }
