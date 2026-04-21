@@ -215,4 +215,24 @@ int object_read(const ObjectID *id, ObjectType *type_out, void **data_out, size_
     if (memcmp(computed.hash, id->hash, HASH_SIZE) != 0) {
         free(buf); return -1;  // Corrupt object
     }
+
+    // Step 5: Parse type string
+    if      (strncmp((char*)buf, "blob ",   5) == 0) *type_out = OBJ_BLOB;
+    else if (strncmp((char*)buf, "tree ",   5) == 0) *type_out = OBJ_TREE;
+    else if (strncmp((char*)buf, "commit ", 7) == 0) *type_out = OBJ_COMMIT;
+    else { free(buf); return -1; }
+
+    // Step 6: Extract data portion (everything after the '\0')
+    size_t data_offset = (null_pos - buf) + 1;
+    size_t data_len = file_size - data_offset;
+
+    uint8_t *data = malloc(data_len + 1);  // +1 for safety null terminator
+    if (!data) { free(buf); return -1; }
+    memcpy(data, buf + data_offset, data_len);
+    data[data_len] = '\0';
+
+    free(buf);
+    *data_out = data;
+    *len_out = data_len;
+    return 0;
 }
