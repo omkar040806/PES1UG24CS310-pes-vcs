@@ -70,7 +70,7 @@ make clean    # Remove all build artifacts
 ### Author Configuration
 
 ```bash
-export PES_AUTHOR="Your Name <PES1UG24CS310>"
+export PES_AUTHOR="Omkar <PES1UG24CS310>"
 ```
 
 ---
@@ -348,17 +348,17 @@ Committed: 0069c919cb7c... Add world
 Committed: ff03009aa58b... Add farewell
 
 commit ff03009aa58b6f531b0fb754637d2502ca4ff69f22a773738313ee25b5a428fc
-Author: PES User <pes@localhost>
+Author: Omkar <PES1UG24CS310>
 Date:   1776752001
     Add farewell
 
 commit 0069c919cb7cf1495a72240afb5bc051ecf9b6f7542ae5ff187d417b950dc1b0
-Author: PES User <pes@localhost>
+Author: Omkar <PES1UG24CS310>
 Date:   1776752001
     Add world
 
 commit a8110ed4f88fcb1e80371d757fb2adc260dfb6fba1b84bfdad69dc67a379386c
-Author: PES User <pes@localhost>
+Author: Omkar <PES1UG24CS310>
 Date:   1776752001
     Initial commit
 ```
@@ -526,17 +526,17 @@ Committed: 69ea93c5c551... Update file.txt
 Committed: fd67c5003341... Add farewell
 --- Full History ---
 commit fd67c500334192abb4cbaa5a76e4d9b0fad7ace25e55f16087d50df9f04dbbe7
-Author: PES User <pes@localhost>
+Author: Omkar <PES1UG24CS310>
 Date:   1776752031
     Add farewell
 
 commit 69ea93c5c5511a8088747ccb650d2033427d396514d9c3d39035975c0021b8d9
-Author: PES User <pes@localhost>
+Author: Omkar <PES1UG24CS310>
 Date:   1776752031
     Update file.txt
 
 commit 1efc5e934ba27e0326b566b8f205bf026574538ad769ebae30ca50984970f3f7
-Author: PES User <pes@localhost>
+Author: Omkar <PES1UG24CS310>
 Date:   1776752031
     Initial commit
 --- Reference Chain ---
